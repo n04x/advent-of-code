@@ -30,7 +30,7 @@ def maxSum(arr, n, k):
 
 # region Parameters
 
-file = open('../input/day1.txt', 'r')
+file = open('./input/day1.txt', 'r')
 lines = file.read().splitlines()
 increase = 0
 current_depth = 0
