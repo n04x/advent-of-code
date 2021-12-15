@@ -1,4 +1,4 @@
-#region librairies
+#region modules
 import re
 #endregion
 
@@ -65,5 +65,9 @@ for n in drawn_numbers:
 winning_bingo_card, last_drawn_number = completed_bingo_cards[0]
 winning_bingo_card_sum = sum([sum([x for x in row if x != None]) for row in winning_bingo_card])
 
+losing_bingo_card, losing_drawn_number = completed_bingo_cards[-1]
+losing_bingo_card_sum = sum([sum([x for x in row if x != None]) for row in losing_bingo_card])
+
 print('Answer for Part #1 of the challenge: {}'.format(winning_bingo_card_sum * last_drawn_number))
+print('Answer for Part #2 of the challenge: {}'.format(losing_bingo_card_sum * losing_drawn_number))
 #endregion
