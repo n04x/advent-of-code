@@ -6,7 +6,7 @@ import re
 def partOne(data, uniques):
     out_total = 0
     for d in data:
-        out_total += sum(map(lambda x: 1 if len(x) in uniques else 0, d[1]))   
+        out_total += sum(map(lambda x: 1 if len(x) in uniques else 0, d[1]))
     return out_total
 
 def partTwo(data):
