@@ -9,6 +9,9 @@ Below are my direct link to python code for 2021
 ## Notes for each Days
 
 ### Day 8
+
+Th ecode can be found [here](aoc-2021/day8)
+
 For the eighth day, we need to split the data in two, inputs and outputs. The delimiter is the `|`. For the part one, we only wanted to find number of letter in the pattern that return a digit number that appear on the digital clock of the submarines:
 - 7 is the only digit that uses 3 segments in the example, so `if len(segments) == 3 then 7`
 - 4 is the only digit that uses 4 segments in the example, so `if len(segments) == 4 then 4`
@@ -26,7 +29,7 @@ For the ninth day, I had to rework the code more than once when I reached part 2
 2. If there are no remaining adjacent vertices left, remove the first vertex from the queue.
 3. Repeat step 1 and step 2 until the queue is empty or the desired node is found.
 
-With that process in mind, I decided to rewrite the [day 9 code](day9.py) of Advent of Code entirely in order to optimize the performance. The theory for BFS can be found [here](https://www.educative.io/edpresso/how-to-implement-a-breadth-first-search-in-python)
+With that process in mind, I decided to rewrite the [day 9 code](aoc-2021/day9.py) of Advent of Code entirely in order to optimize the performance. The theory for BFS can be found [here](https://www.educative.io/edpresso/how-to-implement-a-breadth-first-search-in-python)
 
 At first I was using the numpy.prod() function and after quick googling to compare between `math.prod()` vs `numpy.prod()`, it seems that the `math.prod()` option is better, faster and easier to use since it's part of Python default librairies.
 
