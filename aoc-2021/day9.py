@@ -71,12 +71,8 @@ def bfs(data, row, column):
 #endregion
 
 #region main
-with open('./inputs/test.txt', 'r') as file:
+with open('./inputs/day9.txt', 'r') as file:
     height_map = [[int(val) for val in line.strip()] for line in file.readlines()]
-
-for row in height_map:
-    print(row)
-
 
 risk_levels = []    # array that contains all low points + 1.
 basins = []         # array that contains all basins of values.
@@ -89,5 +85,5 @@ for row,column in product(range(len(height_map)), range(len(height_map[0]))):
         insort(basins, bfs(height_map, row, column))
 
 print("Part #1 Answer: {}".format(sum(risk_levels)))
-print("Part #1 Answer: {}".format(prod(basins[:3])))
+print("Part #1 Answer: {}".format(prod(basins[-3:])))
 #endregion
