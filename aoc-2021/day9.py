@@ -1,6 +1,8 @@
 #region modules
+from bisect import insort
 from itertools import product
 from collections import deque
+from math import prod # use math python default librairies which is faster than numpy one
 #endregion
 
 #region functions
@@ -54,19 +56,17 @@ def get_neighbours(data, row, column):
     
     return result
 
-# this is copy-pasted from the source website (link can be found in the README.md)
-def bfs(visited, graph, node):
-    visited.append(node)
-    queue.append(node)
-
+def bfs(data, row, column):
+    visited_node = [(row,column)]
+    queue = deque(((row,column),))
     while queue:
-        s = queue.pop(0)
-        print(s, end = ' ')
-
-        for neighbour in graph[s]:
-            if neighbour not in visited:
-                visited.append(neighbour)
-                queue.append(neighbour)
+        row, column = queue.pop()
+        for x, y in get_neighbours(data, row, column):
+            if (x, y) not in visited_node and data[x][y] != 9:
+                queue.appendleft((x,y))
+                visited_node.append((x,y))
+    
+    return len(visited_node)
 
 #endregion
 
@@ -79,16 +79,15 @@ for row in height_map:
 
 
 risk_levels = []    # array that contains all low points + 1.
-basins = []
+basins = []         # array that contains all basins of values.
 
 # create a graph of all data, basically the i,j are now position in the graph and each point in the map is now a value
 for row,column in product(range(len(height_map)), range(len(height_map[0]))):
     neighbours = get_neighbours(height_map, row, column)
     if all(height_map[row][column] < height_map[row1][col1] for (row1, col1) in neighbours):
         risk_levels.append(height_map[row][column] + 1)
-
-
+        insort(basins, bfs(height_map, row, column))
 
 print("Part #1 Answer: {}".format(sum(risk_levels)))
-#print("Part #1 Answer: {}".format(lowPoints(height_map, True)))
+print("Part #1 Answer: {}".format(prod(basins[:3])))
 #endregion
