@@ -19,7 +19,7 @@ def count_overlaps(values, horizontal: bool = False):
 #endregion
 
 #region main
-with open('./input/day5.txt') as file:
+with open('./inputs/day5.txt') as file:
     lines = [re.findall(r'(\d*),(\d*)', line) for line in file.readlines()]
     lines = [[(int(x), int(y)) for x, y in line] for line in lines]
 

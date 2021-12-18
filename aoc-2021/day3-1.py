@@ -1,4 +1,4 @@
-with open('./input/day3.txt') as file:
+with open('./inputs/day3.txt') as file:
     lines = [line.strip() for line in file.readlines()]
 
 def swapToColumn(data):

@@ -1,4 +1,4 @@
-file = open('./input/day2.txt', 'r')
+file = open('./inputs/day2.txt', 'r')
 lines = file.read().splitlines()
 
 class Direction:

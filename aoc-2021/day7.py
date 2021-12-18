@@ -16,7 +16,7 @@ def calculateDistance(positions, part1: bool = True):
 #endregion
 
 #region main
-with open('./input/day7.txt') as file:
+with open('./inputs/day7.txt') as file:
     crabs = [int(x) for x in file.read().split(',')]
 print('Part #1 Answer: {}'.format(min(calculateDistance(crabs))))
 print('Part #2 Answer: {}'.format(min(calculateDistance(crabs, False))))

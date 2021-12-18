@@ -37,7 +37,7 @@ def checkWinningCondition(cards):
 #endregion
 
 #region main
-with open('./input/day4.txt') as file:
+with open('./inputs/day4.txt') as file:
     bingo_cards_file = file.read().strip().split('\n\n')
 
 drawn_numbers = [int(x) for x in bingo_cards_file[0].split(',')]

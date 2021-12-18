@@ -19,7 +19,7 @@ def lanternfishGrowth(lanternfishs_initial, days):
 #endregion
 
 #region main
-with open('./input/day6.txt') as file:
+with open('./inputs/day6.txt') as file:
     lanternfishs_initial = [int(x) for x in file.read().split(',')]
 
 days1 = 80

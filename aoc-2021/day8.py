@@ -76,7 +76,7 @@ def partTwo(data):
 #endregion
 
 #region main
-with open('./input/day8.txt', 'r') as file:
+with open('./inputs/day8.txt', 'r') as file:
     data = []
     for f in file.readlines():
         patterns, outputs = f.split('|')
