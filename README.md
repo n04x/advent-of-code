@@ -10,7 +10,7 @@ Below are my direct link to python code for 2021
 
 ### Day 8
 
-Th ecode can be found [here](aoc-2021/day8)
+Th ecode can be found [here](aoc-2021/day8.py)
 
 For the eighth day, we need to split the data in two, inputs and outputs. The delimiter is the `|`. For the part one, we only wanted to find number of letter in the pattern that return a digit number that appear on the digital clock of the submarines:
 - 7 is the only digit that uses 3 segments in the example, so `if len(segments) == 3 then 7`
@@ -33,3 +33,22 @@ With that process in mind, I decided to rewrite the [day 9 code](aoc-2021/day9.p
 
 At first I was using the numpy.prod() function and after quick googling to compare between `math.prod()` vs `numpy.prod()`, it seems that the `math.prod()` option is better, faster and easier to use since it's part of Python default librairies.
 
+### Day 10
+For the tenth day, we need to seperate the data by chunk. Here are the acceptable chunk `()[]{}<>` and each chunk could contains inner smaller chunk. So basically it would be something like that
+```
+for char in data {
+    if (char contains('([{<')) {
+        create new chunk
+        push the char in it
+    }
+    if (car contains(')]}>')) {
+        close the chunk
+    }
+}
+```
+
+However, we would also need to check for incomplete and corrupted lines as well. The corrupted line might have the incorrect closing character. And we have a syntax checker table to match the first illegal character:
+- `)`: `3` points
+- `]`: `57` points
+- `}`: `1197` points
+- `>`: `25137` points
