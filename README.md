@@ -52,3 +52,9 @@ However, we would also need to check for incomplete and corrupted lines as well.
 - `]`: `57` points
 - `}`: `1197` points
 - `>`: `25137` points
+
+For the second part, it's really similar but we now calulate the incomplete ones as well. which mean the ones that has a missing closing bracket, they also have their own checker table:
+- `)`: `1` point.
+- `]`: `2` points.
+- `}`: `3` points.
+- `>`: `4` points.

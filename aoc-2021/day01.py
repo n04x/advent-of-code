@@ -53,4 +53,4 @@ for depth in ilines:
 print('The number of time the depths increased are {}'.format(increase))
 
 # Function used for part 2
-print(maxSum(ilines, n, k))
+print("Part #2 Answer: {}".format(maxSum(ilines, n, k)))
