@@ -80,6 +80,8 @@ gamma = epsilion = ''
 # Find gamma and epsilion
 gamma = findGamma(data_column)
 epsilion = ''.join(map(lambda bit: '1' if bit == '0' else '0', gamma))
+
+# Print result
 print('Part #1 Answer: {}'.format(int(gamma, 2) * int(epsilion, 2)))
 print('Part #2 Answer: {}'.format(int(oxygen_data[0],2) * int(co2_data[0],2)))
 #endregion
