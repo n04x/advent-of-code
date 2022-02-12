@@ -26,6 +26,7 @@ def updateBoard(data):
             flash(new_board, flashing, row, column)
     
     return [[0 if val > 9 else val for val in row] for row in new_board]
+
 #endregion
 
 #region main
@@ -34,10 +35,17 @@ with open('inputs/day11.txt', 'r') as file:
 
 board = deepcopy(data)
 total_flashes = 0
-steps = 100
-for _ in range(steps):
+steps_p1 = 100
+for _ in range(steps_p1):
     board = updateBoard(board)
     total_flashes += sum(val == 0 for row in board for val in row)
 
+board = deepcopy(data)
+steps_p2 = 0
+while any(val for row in board for val in row):
+    board = updateBoard(board)
+    steps_p2 += 1
+
 print('Part #1 Answer: {}'.format(total_flashes))
+print('Part #2 Answer: {}'.format(steps_p2))
 #endregion
