@@ -17,6 +17,17 @@ def dfs(last, visited, edges):
     return paths
 
 # DFS function created for part #2
+def dfs2(last, visited, edges, repeats):
+    if last == 'end':
+        return 1
+    paths = 0
+    for edge in edges[last]:
+        if not(edge.islower() and edge in visited):
+            paths += dfs2(edge, visited | {edge}, edges, repeats)
+        elif edge.islower() and edge in visited and repeats:
+            paths += dfs2(edge, visited, edges, False)
+    return paths
+
 
 #endregion
 
@@ -35,4 +46,6 @@ for v1, v2 in graph:
 visited = set()
 result = dfs('start', visited, edges)
 print('Part #1 Answer: {}'.format(result))
+result = dfs2('start', visited, edges, True)
+print('Part #2 Answer: {}'.format(result))
 #endregion

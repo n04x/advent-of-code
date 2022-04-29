@@ -58,3 +58,15 @@ For the second part, it's really similar but we now calulate the incomplete ones
 - `]`: `2` points.
 - `}`: `3` points.
 - `>`: `4` points.
+
+### Day 11
+*Access the script [here](aoc-2021/day11.py)*
+
+In order to propagate the flash we use recursive function called `flash` that take 3 parameters, the data, the row axis and the column axis. In order to perform every steps, we need to "update" the board in consequence, the function will create a temp board with all `False` value meaning that no flash occure. Once there is a flash, this board position will switch to `True` by performing the `flash` function. Then the `updateBoard` function will return a new updated board that contains the new iteration of value on it.
+
+### Day 12
+*Access the script [here](aoc-2021/day12.py)*
+
+This is based on the graph system that is widely teached at school in CS program. I decided to go with depth-first search, commonly referred as DFS search whihc is an algorithm for traversing a tree or graph data structures. The algorithm start at root node named `start` in this exercice. We need some parameters for this algorithm, such as `last` which will stored the last visited node, a parameter called `visited` to stored visited nodes and lastly the `edges` to store the next one to visit.
+
+For part #2, we need to add a revisit cave, basically if we have a capital letter, we can revisit it as many time as we want, a single small letter are visited once.
