@@ -1,6 +1,5 @@
 from os import link
 import sys
-INT_MIN = -sys.maxsize -1
 
 #region functions
 def maxCalories(cal):
@@ -31,13 +30,9 @@ def topThree(cal):
 
 #endregion
 
-#region parameters
-
-#endregion
-
 #region main
 with open('inputs/day01.txt') as f:
-    calories = f.read().split("\n")
+    calories = f.read().splitlines()
 
 topThreeArray = []
 maxCal = maxCalories(calories)
