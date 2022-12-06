@@ -1,10 +1,4 @@
-from os import link
 import sys
-import re
-from itertools import zip_longest
-from unittest import result
-
-from more_itertools import quantify
 
 #region functions
 def processCratesInput(crates):
