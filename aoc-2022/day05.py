@@ -2,6 +2,9 @@ from os import link
 import sys
 import re
 from itertools import zip_longest
+from unittest import result
+
+from more_itertools import quantify
 
 #region functions
 def processCratesInput(crates):
@@ -21,28 +24,40 @@ def processCratesInput(crates):
         stacks[key].reverse()
     return stacks
 
-def processCratesMovement(moves):
+def getAnswer(stacks):
+    keys = list(stacks.keys())
+    keys.sort()
+    result = ''
+    for k in keys:
+        result += stacks[k].pop().removeprefix('[').removesuffix(']')
+    return result
+
+def CrateMover9000(moves):
     for move in moves:
         move = move.split(' ')
         quantity, crate_source, crate_destination = int(move[1]), int(move[3]), int(move[5])
-        crates_to_move = []
-        for i in range(quantity):
-            crates_to_move.append(stacks_crates[crate_source].pop())
-        
-        stacks_crates[crate_destination] += crates_to_move
+        crates_to_move = [stacks_crates_move_9000[crate_source].pop() for _ in range(quantity)]
+        stacks_crates_move_9000[crate_destination] += crates_to_move
 
-    keys = list(stacks_crates.keys())
-    keys.sort()
-    result = ''
-
-    for k in keys:
-        result += stacks_crates[k].pop().removeprefix('[').removesuffix(']')
-    
+    result = getAnswer(stacks_crates_move_9000)
     return result
+
+def CrateMover9001(moves):
+    for move in moves:
+        move = move.split(' ')
+        quantity, crate_source, crate_destination = int(move[1]) , int(move[3]), int(move[5])
+        crates_to_move = [stacks_crates_move_9001[crate_source].pop() for _ in range(quantity)]
+        crates_to_move.reverse()
+        stacks_crates_move_9001[crate_destination] += crates_to_move
+
+    result = getAnswer(stacks_crates_move_9001)
+    return result
+        
 #endregion
 
 #region Paramters
-stacks_crates = dict()
+stacks_crates_move_9000 = dict()
+stacks_crates_move_9001 = dict()
 #endregion
 
 #region Script
@@ -51,8 +66,12 @@ with open('inputs/day05.txt') as f:
     crates_input = crates_input.splitlines()[:-1]
     moves_input = moves_input.splitlines()
 
-stacks_crates = processCratesInput(crates_input)
-result = processCratesMovement(moves_input)
+stacks_crates_move_9000 = processCratesInput(crates_input)
+stacks_crates_move_9001 = processCratesInput(crates_input)
+crate_mover_9000 = CrateMover9000(moves_input)
+#print(moves_input)
+crate_mover_9001 = CrateMover9001(moves_input)
 
-print('Part One Answer: {}'.format(result))
+print('Part One Answer: {}'.format(crate_mover_9000))
+print('Part Two Answer: {}'.format(crate_mover_9001))
 #endregion
