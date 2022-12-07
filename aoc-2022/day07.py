@@ -1,7 +1,7 @@
 import sys
 import re
 
-TESTING = False
+TESTING = True
 
 #region functions
 def getDirectorySize(data, stack):
@@ -11,8 +11,7 @@ def getDirectorySize(data, stack):
             top = stack.pop()
             if stack:
                 sizes.append(top)
-                stack[-1] += top
-            
+                stack[-1] += top       
         elif cd_line := re.match(r"\$ cd .+", line):
             stack.append(0)
         elif file_line := re.match(r"(\d+) .+", line):
