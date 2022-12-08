@@ -32,7 +32,7 @@ every_overlaps_pairs = 0
 #endregion
 
 #region script
-with open('inputs/day04.txt') as f:
+with open('day04.txt') as f:
     assignments = f.read().splitlines()
 
 for pair in assignments:

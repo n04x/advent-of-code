@@ -83,7 +83,7 @@ def calculateScore(opp, you):
 #endregion
 
 #region main
-with open('inputs/day02.txt') as f:
+with open('day02.txt') as f:
     outcomes = f.read().splitlines()
     outcomes = [line.split() for line in outcomes]
 

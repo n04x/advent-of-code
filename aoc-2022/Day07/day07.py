@@ -1,7 +1,7 @@
 import sys
 import re
 
-TESTING = True
+TESTING = False
 
 #region functions
 def getDirectorySize(data, stack):
@@ -43,7 +43,7 @@ SPACE_REQUIRED = 30000000
 #endregion
 
 #region script
-with open('inputs/test.txt' if TESTING else 'inputs/day07.txt') as f:
+with open('test.txt' if TESTING else 'day07.txt') as f:
     data = f.read().splitlines()
     data = iter(data)
 

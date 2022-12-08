@@ -27,7 +27,7 @@ priorities_part_two = 0
 #endregion
 
 #region script
-with open('inputs/day03.txt') as f:
+with open('day03.txt') as f:
     rumsacks = f.read().splitlines()
 
 for rumsack in rumsacks:

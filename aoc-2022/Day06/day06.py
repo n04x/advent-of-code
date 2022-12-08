@@ -10,7 +10,7 @@ def getMarker(ds, o):
 #endregion
 
 #region script
-with open('inputs/test.txt' if TESTING else 'inputs/day06.txt') as f:
+with open('test.txt' if TESTING else 'day06.txt') as f:
     datastream = f.read()
 
 start_of_packet_marker = getMarker(datastream, 4)

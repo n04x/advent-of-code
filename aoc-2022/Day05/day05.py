@@ -55,7 +55,7 @@ stacks_crates_move_9001 = dict()
 #endregion
 
 #region Script
-with open('inputs/day05.txt') as f:
+with open('day05.txt') as f:
     crates_input, moves_input = f.read().split('\n\n')
     crates_input = crates_input.splitlines()[:-1]
     moves_input = moves_input.splitlines()
