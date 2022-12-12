@@ -1,3 +1,4 @@
+import math
 import sys
 import re
 import operator
@@ -5,6 +6,7 @@ import copy
 from collections import Counter
 
 TESTING = False
+
 #region function
 def generateMonkeysInfo(data):
     monkeys = {}
@@ -22,11 +24,11 @@ def generateMonkeysInfo(data):
     
     return monkeys
 
-def monkeyBusiness(monkeys, rounds, relief=True):
+def monkeyBusiness(monkeys, rounds, relief=True, lcm=None):
     for _ in range(rounds):
         for monkey in monkeys.values():
             while monkey.starting_items:
-                target_monkey = monkeys[monkey.inspectItem(relief)]
+                target_monkey = monkeys[monkey.inspectItem(relief, lcm)]
                 monkey.throwTo(target_monkey)
     
     monkey_inspect = Counter({monkey.id: monkey.inspect_counter for monkey in monkeys.values()})
@@ -61,6 +63,9 @@ class Monkey:
 
         if relief:
             self.starting_items[0] //= 3
+        
+        if lcm:
+            self.starting_items[0] %= lcm
                 
         return self.throw[0] if self.starting_items[0] % self.divisor == 0 else self.throw[1]
     
@@ -78,6 +83,10 @@ with open('test.txt' if TESTING else 'day11.txt') as f:
     data = f.read().split("\n\n")
 
 monkeys = generateMonkeysInfo(data)
-monkey_busines = monkeyBusiness(copy.deepcopy(monkeys), 20)
-print('Part One Answer: {}'.format(monkey_busines))
+monkey_business = monkeyBusiness(copy.deepcopy(monkeys), 20)
+print('Part One Answer: {}'.format(monkey_business))
+
+lcm = math.lcm(*[monkey.divisor for monkey in monkeys.values()])
+monkey_business = monkeyBusiness(copy.deepcopy(monkeys), 10000, relief=False, lcm=lcm)
+print('Part Two Answer: {}'.format(monkey_business))
 #endregion
