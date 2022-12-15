@@ -1,4 +1,5 @@
 import sys
+import functools
 TESTING = False
 
 #region functions
@@ -43,5 +44,11 @@ for i in range(0, len(pairs), 2):
         sum_pair_indices += pair_index
     pair_index += 1
 
+pairs.append([[2]])
+pairs.append([[6]])
+pairs.sort(key=functools.cmp_to_key(compareValues), reverse=True)
+decoder_key = (pairs.index([[2]]) + 1) * (pairs.index([[6]]) + 1)
+
 print('Part One Answer: {}'.format(sum_pair_indices))
+print('Part Two Answer: {}'.format(decoder_key))
 #endregion
