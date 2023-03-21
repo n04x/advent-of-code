@@ -1,5 +1,5 @@
 import re
-TESTING = False
+TESTING = True
 def wrapAround(board, row, col):
     num_rows, num_cols = len(board), len(board[0])
     return (row % num_rows, col % num_cols)
@@ -31,7 +31,8 @@ def solve(lines):
     return 1000 * (row + 1) + 4 * (col + 1) + d
 
 with open('test.txt' if TESTING else 'input.txt') as f:
-    data = f.strip().split('\n')
+    lines = f.readlines()
+    data = [l.strip('\n') for l in lines]
 
 solve(data)
 
