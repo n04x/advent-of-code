@@ -36,11 +36,6 @@ with open('test.txt' if TESTING else 'input.txt') as f:
 
 with open('test.txt' if TESTING else 'input.txt') as f:
     data_p2, queue_p2, element_p2 = buildQueue(f, DECRYPT_KEY)
-    # data_p1 = [(i, value) for i, value in enumerate(map(int, f.readlines()))]
-    # data_p2 = [(i, value * DECRYPT_KEY) for i, value in enumerate(map(int, f.readlines()))]
-    # queue_p1 = deque(data_p1)
-    # queue_p2 = deque(data_p2)
-    # element_p1 = next(i for i in data_p1 if not i[1])
 
 # Part one stuff
 mixing(data_p1, queue_p1)
