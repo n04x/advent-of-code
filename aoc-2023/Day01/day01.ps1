@@ -27,18 +27,17 @@ function Get-NewString {
 #endregion
 
 #region Parameters
+$scriptPath = Split-Path $MyInvocation.MyCommand.Path -Parent
 $TESTING = $false
 $sum_p1 = 0
 $sum_p2 = 0
 #endregion
 
 #region Script
-
-#endregion
 if($TESTING) {
-    $data = Get-Content ./aoc-2023/Day01/test.txt
+    $data = Get-Content -Path "$scriptPath\test.txt"
 } else {
-    $data = Get-Content ./aoc-2023/Day01/input.txt
+    $data = Get-Content -Path "$scriptPath\input.txt"
 }
 
 # Part 1
@@ -55,3 +54,4 @@ foreach($d in $data) {
 }
 Write-Host "The answer for the part 1 is $sum_p1"
 Write-Host "The answer for the part 2 is $sum_p2"
+#endregion
