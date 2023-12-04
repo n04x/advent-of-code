@@ -26,7 +26,6 @@ function Get-FewestCubeValue {
     param($line)
     $FEWEST_CUBES = @{'red' = 0; 'green' = 0; 'blue' = 0}
     $game, $cubes = $line.Split(':').Trim()
-    Write-Host $game -ForegroundColor Green
     foreach($c in $cubes) {
         $amt_col = ($c -split ",|;").Trim() 
         foreach($val in $amt_col) {
@@ -34,19 +33,20 @@ function Get-FewestCubeValue {
             $amountInt = [int]$amount
             if($amountInt -gt $FEWEST_CUBES.$color) {
                 $FEWEST_CUBES[$color] = $amountInt
-                Write-Host $FEWEST_CUBES
             }            
         }
     }
-    
+    $result = $FEWEST_CUBES['red'] * $FEWEST_CUBES['green'] * $FEWEST_CUBES['blue']
+    return $result
 }
 #endregion
 
 #region Parameters
 $scriptPath = Split-Path $MyInvocation.MyCommand.Path -Parent
-$TESTING = $true
+$TESTING = $false
 $MAX_CUBES = @{'red' = 12; 'green' = 13; 'blue' = 14}
 $total_p1 = 0
+$total_p2 = 0
 #endregion
 
 #region Script
@@ -58,7 +58,8 @@ if($TESTING) {
 
 foreach($d in $data) {
     $total_p1 += Get-Cubes $d
-    Get-FewestCubeValue $d
+    $total_p2 += Get-FewestCubeValue $d
 }
 Write-Host "The answer for the part 1 is $total_p1"
+Write-Host "The answer for the part 2 is $total_p2"
 #endregion
