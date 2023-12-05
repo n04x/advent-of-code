@@ -33,3 +33,12 @@ $content | Where-Object type -eq number | Where-Object {
         }
     }
 } | Measure-Object -Property value -Sum | ForEach-Object Sum 
+
+Write-Host "The answer for the part 2 is: " -NoNewline -ForegroundColor Green
+$symbols = $content | Where-Object value -eq '*'
+@(foreach($symbol in $symbols){
+    $cogs = @($content| Where-Object type -eq number| Where-Object { $symbol.row -in $_.rows -and $symbol.column -in $_.columns })
+    if($cogs.Count -eq 2){
+        $cogs[0].value * $cogs[1].value
+    }
+})| Measure-Object -Sum | ForEach-Object Sum
