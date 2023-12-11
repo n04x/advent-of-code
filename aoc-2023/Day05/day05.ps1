@@ -1,8 +1,10 @@
 #region Parameters
 $TESTING = $false
 $scriptPath = Split-Path $MyInvocation.MyCommand.Path -Parent
+$DigitRegex = "\d+"
+$HeaderRegex = "^(.*):$"
 $Seeds = New-Object 'System.Collections.Generic.List[System.Object]'
-$MappingsObject = @()
+$MappingsObject = [System.Collections.ArrayList]::New()
 $outcomes_p1 = @()
 $outcomes_p2 = @()
 #endregion
@@ -103,6 +105,7 @@ function Get-AnswerPartTwo {
         $currentSeed = [uint64]$Seeds[$i].Value
         $maxSeed = [uint64]([uint64]$Seeds[$i].Value + [uint64]$Seeds[$i + 1].Value)
         for($seed = $currentSeed; $seed -lt $maxSeed; $seed++) {
+            Write-Host "value of i: $i and value of seed: $seed"
             # Filter out mapping
             $soil = Get-MappingNumber $seed $seedToSoilMaps
             $fertilizer = Get-MappingNumber $soil $SoilToFertilizerMaps
@@ -137,8 +140,7 @@ if($TESTING) {
     $data = Get-Content "$scriptPath\input.txt"
 }
 
-$DigitRegex = "\d+"
-$HeaderRegex = "^(.*):$"
+
 
 # Parse seeds
 Get-Seeds $data
