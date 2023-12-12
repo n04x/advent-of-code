@@ -18,6 +18,7 @@ function Get-DataSheetValues {
     return $result
 }
 
+
 function Get-WaysToWin {
     param($infoSheet)
     $result = @()
@@ -39,6 +40,27 @@ function Get-WaysToWin {
     return $result
 }
 
+function Get-WaysToWinPt2 {
+    param($d)
+    # This function is for Part 2, in first part we separate everything as array, in second part it's a single value for each.
+    $time = $d[0].Split(":")[1].Replace(" ","")
+    $distance = $d[1].Split(":")[1].Replace(" ","")
+    $result = 0
+    Write-Host "Time is: $time and distance is $distance"
+
+    for($i = 1; $i -lt $time; $i++) {
+        $currDistance = $i * ($time - $i)
+        $canBreak = $false
+
+        if($currDistance -gt $distance) {
+            $result++
+            $canBreak = $true
+        } elseif(($currDistance -le $distance) -and $canBreak) {
+            $i = [int]$time
+        }
+    }
+    return $result
+}
 #endregion
 
 #region Script
@@ -59,5 +81,5 @@ foreach($val in $wayToWins) {
     }
 }
 Write-Host "The answer for the part one is $answer_p1" -ForegroundColor Green
-
+Write-Host "The answer for the part two is $(Get-WaysToWinPt2 $data)" -ForegroundColor Green
 #endregion
