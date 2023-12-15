@@ -1,6 +1,8 @@
 #region Parameters
-$TESTING = $true
+$TESTING = $false
 $scriptPath = Split-Path $MyInvocation.MyCommand.Path -Parent
+$OASISReports = @()
+$extrapolatedVal = 0
 #endregion
 
 #region Functions
@@ -13,20 +15,31 @@ function Get-Data {
     return $result
 }
 
-function Get-Values {
-    param([int[]]$values)
-    $differences = @()
-    for($i = 0; $i -lt $values.Count -1; $i++) {
-        $difference = $values[$i + 1] - $values[$i]
-        $differences += $difference
+function Get-OASISReports {
+    param($l)
+    $result = @()
+    for($i = 0; $i -lt $l.Count; $i++) {
+        $props = [ordered]@{
+            History = [int[]]$lines[$i].Split(' ')
+            Previous = @()
+        }
+        $result += New-Object -TypeName psobject -Property $props
     }
-    Write-Host "The differences are: $differences"
-    if($differences -notcontains 0) {
-        Write-Host "Difference doesn't have zero!" -ForegroundColor Red
-        $history = Get-Values $differences
+    return $result
+}
+
+function Get-ExtrapolateHistory {
+    param ($history, $previous)
+    $prev = $previous
+    $current = $history
+    $difference = @()
+    for($i = 0; $i -lt $current.Count - 1; $i++) {
+        $difference += $current[$i + 1] - $current[$i]
+    }
+    if(($difference | Where-Object {$_ -eq 0}).Count -eq $difference.Count) {
+        return $current[-1] + $prev[-1]
     } else {
-        Write-Host "Difference are all zero'd" -ForegroundColor Green
-        return $history
+        return $prev[-1] + (Get-ExtrapolateHistory $difference $current)
     }
 }
 #endregion
@@ -39,8 +52,9 @@ if($TESTING) {
 }
 
 $lines = Get-Data $data
-foreach($line in $lines) {
-    $histories = Get-Values $line.Split(' ')
-    Write-Host $histories.Count -ForegroundColor Cyan
+$OASISReports = Get-OASISReports $lines
+foreach($report in $OASISReports) {
+    $extrapolatedVal += Get-ExtrapolateHistory $report.History $report.Previous
 }
+Write-Host "The answer for the part one is $extrapolatedVal" -ForegroundColor Green
 #endregion
