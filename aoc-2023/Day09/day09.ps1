@@ -2,7 +2,8 @@
 $TESTING = $false
 $scriptPath = Split-Path $MyInvocation.MyCommand.Path -Parent
 $OASISReports = @()
-$extrapolatedVal = 0
+$answer_p1 = 0
+$answer_p2 = 0
 #endregion
 
 #region Functions
@@ -42,6 +43,24 @@ function Get-ExtrapolateHistory {
         return $prev[-1] + (Get-ExtrapolateHistory $difference $current)
     }
 }
+
+function Get-ExtrapolateHistoryBeginning {
+    param($history, $previous) 
+    $prev = $previous
+    $current = $history
+    $difference = @()
+    for($i = 0; $i -lt $current.Count - 1; $i++) {
+        $difference += $current[$i+1] - $current[$i] 
+    }
+    if(($difference | Where-Object {$_ -eq 0}).Count -eq $difference.Count) {
+        $difference
+        return $history[0] - $difference[0]
+    } else {
+        $prev = $current
+        $nextIteration = $difference
+        return $current[0] - (Find-RecursionP2 $nextIteration $prev)
+    }
+}
 #endregion
 
 #region Script
@@ -54,7 +73,9 @@ if($TESTING) {
 $lines = Get-Data $data
 $OASISReports = Get-OASISReports $lines
 foreach($report in $OASISReports) {
-    $extrapolatedVal += Get-ExtrapolateHistory $report.History $report.Previous
+    $answer_p1 += Get-ExtrapolateHistory $report.History $report.Previous
+    $answer_p2 += Get-ExtrapolateHistoryBeginning $report.History $report.Previous
 }
-Write-Host "The answer for the part one is $extrapolatedVal" -ForegroundColor Green
+Write-Host "The answer for the part one is $answer_p1" -ForegroundColor Green
+Write-Host "The answer for the part one is $answer_p2" -ForegroundColor Green
 #endregion
