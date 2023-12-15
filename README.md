@@ -1,0 +1,17 @@
+# Advent of Code :christmas_tree:
+
+## Introduction
+These are my solutions for **Advent of Code :christmas_tree:**. I have started doing these in 2021, using Python for two years, I am now using PowerShell since I wanted to test my actual skill, I am currently using PowerShell everyday in my line of work within Directory Services and I thought it would be a nice opportunity to learn more about this. As you can see in the table below, I never finish these due to lack of time, I am planning to redo every single one in PowerShell in near future starting from 2021 up to 2022.
+
+## Table
+| Year | Language | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [2021](https://adventofcode.com/2021) | Python | [:star: :star:](aoc-2021/day01.py) | [:star: :star:](aoc-2021/day02.py) | [:star: :star:](aoc-2021/day03.py) | [:star: :star:](aoc-2021/day04.py)  | [:star: :star:](aoc-2021/day05.py) | [:star: :star:](aoc-2021/day06.py) | [:star: :star:](aoc-2021/day07.py) | [:star: :star:](aoc-2021/day08.py) | [:star: :star:](aoc-2021/day09.py) | [:star: :star:](aoc-2021/day10.py) | [:star: :star:](aoc-2021/day11.py) | [:star: :star:](aoc-2021/day12.py) | [:star: :star:](aoc-2021/day13.py) | [:star: :star:](aoc-2021/day14.py) | [:star: :star:](aoc-2021/day15.py) | |  | | | |  | | | | |
+| [2022](https://adventofcode.com/2022) | Python | [:star: :star:](aoc-2022/day01/day01.py) | [:star: :star:](aoc-2022/day02/day02.py)  | [:star: :star:](aoc-2022/day03/day03.py)  | [:star: :star:](aoc-2022/day04/day04.py)  | [:star: :star:](aoc-2022/day05/day05.py)  | [:star: :star:](aoc-2022/day06/day06.py)  | [:star: :star:](aoc-2022/day07/day07.py)  | [:star: :star:](aoc-2022/day08/day08.py)  | [:star: :star:](aoc-2022/day09/day09.py)  | [:star: :star:](aoc-2022/day10/day10.py)  | [:star: :star:](aoc-2022/day11/day11.py)  | [:star: :star:](aoc-2022/day12/day12.py)  | [:star: :star:](aoc-2022/day13/main.py)  | [:star: :star:](aoc-2022/day14/main.py)  | [:star: :star:](aoc-2022/day15/main.py)  | [:star: :star:](aoc-2022/day16/main.py)  | [:star: :star:](aoc-2022/day17/main.py)  | [:star: :star:](aoc-2022/day18/main.py)  | [:star: :star:](aoc-2022/day19/main.py)  | [:star: :star:](aoc-2022/day20/main.py)  | [:star: :star:](aoc-2022/day21/main.py) | [:star: :star:](aoc-2022/day22/main.py)  | | | |
+| [2023](https://adventofcode.com/2023) | PowerShell | [:star: :star:](aoc-2023/Day01/day01.ps1) | [:star: :star:](aoc-2023/Day02/day02.ps1) | [:star: :star:](aoc-2023/Day03/day03.ps1) | [:star: :star:](aoc-2023/Day04/day04.ps1) | [:star:](aoc-2023/Day05/day05.ps1) | [:star: :star:](aoc-2023/Day06/day06.ps1) | [:star: :star:](aoc-2023/Day07/day07.ps1) | [:star: :star:](aoc-2023/Day08/day08.ps1) | [:star:](aoc-2023/Day09/day09.ps1) | | | | | | | | | | | | | | | | |
+
+## Links
+
+- The official Advent of Code website: [Advent of Code](https://adventofcode.com)
+- The subreddit for discussing about Advent of Code solution and problems: [Subreddit](https://www.reddit.com/r/adventofcode/)
+- A nice repos that compile Advent of Code solution from other Repository, can be useful to find some hints and learn: [Awesome AoC](https://github.com/Bogdanp/awesome-advent-of-code)
