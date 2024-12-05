@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
+#include <sstream>
 
 // Define the functions
 int getDistance(const std::vector<int>& list1, const std::vector<int>& list2) {
@@ -26,7 +27,7 @@ int getSimilarity(const std::vector<int>& list1, const std::vector<int>& list2) 
 }
 
 int main() {
-    const bool TESTING = false;
+    const bool TESTING = true;
     std::vector<int> left_list;
     std::vector<int> right_list;
 
