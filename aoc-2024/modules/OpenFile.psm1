@@ -13,7 +13,7 @@ function Open-DataFile {
         [string]$scriptPath = (Split-Path -Parent $MyInvocation.MyCommand.Definition)
     )
     if($Testing) { 
-        return Get-Content "$scriptPath\test\day$DayNumber.txt"
+        return Get-Content "$scriptPath\test\day$DayNumber.test"
     } else {
         return Get-Content "$scriptPath\inputs\day$DayNumber.txt"
     }    
