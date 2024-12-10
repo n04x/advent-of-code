@@ -8,8 +8,8 @@ $enabled = $true
 #endregion
 
 #region Modules
-Import-Module -Name "./modules/OpenFile.psm1" -Force
-Import-Module -Name "./modules/WriteOutcome.psm1" -Force
+Import-Module -Name "$scriptPath/modules/OpenFile.psm1" -Force
+Import-Module -Name "$scriptPath/modules/WriteOutcome.psm1" -Force
 #endregion
 
 #region Functions

@@ -9,8 +9,8 @@ $locationIDs2 = @()
 #endregion
 
 #region Function
-Import-Module -Name "./modules/OpenFile.psm1" -Force
-Import-Module -Name "./modules/WriteOutcome.psm1" -Force
+Import-Module -Name "$scriptPath/modules/OpenFile.psm1" -Force
+Import-Module -Name "$scriptPath/modules/WriteOutcome.psm1" -Force
 
 function Get-Distance {
     param ($ids1, $ids2)
