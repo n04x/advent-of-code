@@ -1,11 +1,12 @@
 #region Parameters
 $day = "05"
 $title = "Day 5: Print Queue"
-$testing = $true
+$testing = $false
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 $pageRules = @()
 $pageUpdates = @()
-$middlePageNumber = 0
+$middlePageScorePartOne = 0
+$middlePageScorePartTwo = 0
 #endregion
 
 #region Modules
@@ -33,7 +34,7 @@ function New-PagesOrderData {
                 # Write-Host "$line" -ForegroundColor Yellow 
                 $splitLine = $line.Split(',')
                 $order = [PSCustomObject]@{
-                    Orders = $splitLine
+                    Orders = [System.Collections.ArrayList]$splitLine
                     Valid = $false
                 }
                 $po += $order
@@ -62,6 +63,25 @@ function Get-MiddlePage {
     param($up)
     return [int]$up[[System.Math]::Floor($up.Count / 2)]
 }
+
+function Update-PageOrders {
+    param($sRules, $pageUpd)
+    for($i = 0; $i -lt $pageUpd.Count; $i++) {
+        $val = $pageUpd[$i]
+        $valRules = $sRules.$val.After
+        $valIndex = $pageUpd.IndexOf($val)
+
+        foreach($rule in $valRules) {
+            $ruleIndex = $pageUpd.IndexOf($rule)
+            if($ruleIndex -eq -1) { continue }
+            if($ruleIndex -lt $valIndex) { 
+                $pageUpd.Remove($val)
+                $pageUpd.Insert($ruleIndex, $val)
+            }
+        }
+
+    }
+}
 #endregion
 
 #region Main
@@ -71,8 +91,15 @@ $sortedRules = $pageRules | Sort-Object Before | Group-Object Before -AsHashTabl
 
 foreach($update in $pageUpdates) {
     if(Test-Validity $sortedRules $update.Orders) {
-        $middlePageNumber += Get-MiddlePage $update.Orders
+        $middlePageScorePartOne += Get-MiddlePage $update.Orders
+    } else {
+        do {
+            Update-PageOrders $sortedRules $update.Orders
+        } while (!(Test-Validity $sortedRules $update.Orders))
+        $middlePageScorePartTwo += Get-MiddlePage $update.Orders
     }
 }
-Write-Answer -Title $title -Testing $testing -ExpectedAnswer 143 -Answer $middlePageNumber -Part 1
+
+Write-Answer -Title $title -Testing $testing -ExpectedAnswer 143 -Answer $middlePageScorePartOne -Part 1
+Write-Answer -Title $title -Testing $testing -ExpectedAnswer 123 -Answer $middlePageScorePartTwo -Part 2
 #endregion
