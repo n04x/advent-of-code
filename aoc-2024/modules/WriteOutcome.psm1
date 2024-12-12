@@ -13,7 +13,7 @@ function Write-Answer {
         [string]$ExpectedAnswer,
         # Answer provided
         [Parameter(Mandatory=$true)]
-        [string]$Answer,
+        $Answer,
         # Part
         [Parameter(Mandatory=$true)]
         [int]$Part   

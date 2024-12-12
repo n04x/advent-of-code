@@ -1,119 +1,119 @@
-#region Parameters
-$TESTING = $false
-$XMAS_occurence = 0
-$cross_MAS_occurence = 0
-#endregion
+using namespace System.Collections
+$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 
-#region Functions
-function Search-XMAS {
-    param (
-        [int]$r,
-        [int]$c,
-        [array]$data,
-        [int]$rows,
-        [int]$columns
-    )
+$ErrorActionPreference = "Stop"
 
-    $word = "XMAS"
+$PatrolMap = (Get-Content "$scriptPath\test\day06.test")
 
-    if ($data[$r][$c] -ne $word[0]) {
-        return 0
-    }
+$MaxX = $PatrolMap[0].Length
+$MaxY = $PatrolMap.Count
+$Directions = "^>V<"
+$DirectionNames = ("Up","Right","Down","Left")
 
-    $dirs = @(
-        @(-1, 0), @(1, 0), @(0, -1), @(0, 1), @(-1, -1), @(-1, 1), @(1, -1), @(1, 1)
-    )
+function Find-Guard($PatrolMap){
+    $Regex = "[V<>^]"
 
-    $xmasFound = 0
+    for($i = 0; $i -lt $PatrolMap.Count; $i++){
+        $GuardLocation = [Regex]::Match($PatrolMap[$i],"[V<>\^]")
 
-    foreach ($dir in $dirs) {
-        $i_XMAS = 1
-        $cR = $r + $dir[0]
-        $cC = $c + $dir[1]
+        Switch($GuardLocation.Value){
+            "^" {$Direction = "Up"}
+            "V" {$Direction = "Down"}
+            "<" {$Direction = "Left"}
+            ">" {$Direction = "Right"}
+        }
 
-        while ($i_XMAS -lt $word.Length) {
-            if ($cR -lt 0 -or $cR -ge $rows -or $cC -lt 0 -or $cC -ge $columns) {
-                break
+        if($GuardLocation.Success){
+            $ReturnObj = [PSCustomObject]@{
+                X = $GuardLocation.Index
+                Y = $i
+                Direction = $Direction
+                DirectionChar = $GuardLocation.Value
             }
 
-            if ($data[$cR][$cC] -ne $word[$i_XMAS]) {
-                break
+            return $ReturnObj
+        }
+    }
+}
+
+function Update-Line($Char, [String]$Line, $Index){
+    $CharArray = $Line.ToCharArray()
+
+    $CharArray[$Index] = $Char
+
+    return ($CharArray -Join "")
+}
+
+$GuardLocation = (Find-Guard $PatrolMap)
+$BreadCrumb = "X"
+
+clear-host
+
+do{
+    try{
+        $CardinalSurroundings = [PSCustomObject]@{
+            Up = [PSCustomObject]@{
+                Char = ($PatrolMap[($GuardLocation.Y - 1)][$GuardLocation.X])
+                X = $GuardLocation.X
+                Y = ($GuardLocation.Y - 1)
             }
-
-            $i_XMAS++
-            $cR += $dir[0]
-            $cC += $dir[1]
+            Down = [PSCustomObject]@{
+                Char = ($PatrolMap[($GuardLocation.Y + 1)][$GuardLocation.X])
+                X = $GuardLocation.X
+                Y = ($GuardLocation.Y + 1)
+            }
+            Left = [PSCustomObject]@{
+                Char = ($PatrolMap[$GuardLocation.Y][($GuardLocation.X - 1)])
+                X = ($GuardLocation.X - 1)
+                Y = $GuardLocation.Y
+            }
+            Right = [PSCustomObject]@{
+                Char = ($PatrolMap[$GuardLocation.Y][($GuardLocation.X + 1)])
+                X = ($GuardLocation.X + 1)
+                Y = $GuardLocation.Y
+            }
         }
-
-        if ($i_XMAS -eq $word.Length) {
-            $xmasFound++
-        }
+    } catch {
+        $OutOfBounds = $true
     }
 
-    return $xmasFound
-}
+    $DesiredDirection = $CardinalSurroundings.$($GuardLocation.Direction)
+    $DotPosX = $DesiredDirection.X
+    $DotPosY = $DesiredDirection.Y
 
-function Search-CrossMAS {
-    param (
-        [int]$r,
-        [int]$c,
-        [array]$data,
-        [int]$rows,
-        [int]$columns
-    )
+    if($DesiredDirection.Char -eq "#"){
+            # Turn Right
+            $NextDirectionIndex = (($Directions.IndexOf($GuardLocation.DirectionChar) + 1) % $Directions.Length)
+            $NextDirection = $Directions[$NextDirectionIndex]
 
-    if ($data[$r][$c] -ne "A") {
-        return 0
-    }
+            $NextDirectionnameIndex = (($DirectionNames.IndexOf($GuardLocation.Direction) + 1) % $DirectionNames.Length)
+            $NextDirectionName = $DirectionNames[$NextDirectionnameIndex]
 
-    $dirs = @(
-        @(-1, -1, 1, 1), @(-1, 1, 1, -1)
-    )
+            $PatrolMap[$GuardLocation.Y] = (Update-Line $NextDirection $PatrolMap[$GuardLocation.Y] $GuardLocation.X)
 
-    $crossFound = 0
-
-    foreach ($dir in $dirs) {
-        $r1 = $dir[0]
-        $c1 = $dir[1]
-        $r2 = $dir[2]
-        $c2 = $dir[3]
-
-        if ($r + $r1 -lt 0 -or $r + $r1 -ge $rows -or $r + $r2 -lt 0 -or $r + $r2 -ge $rows) {
+            $GuardLocation.DirectionChar = $NextDirection
+            $GuardLocation.Direction = $NextDirectionName
             continue
-        }
-
-        if ($c + $c1 -lt 0 -or $c + $c1 -ge $columns -or $c + $c2 -lt 0 -or $c + $c2 -ge $columns) {
-            continue
-        }
-
-        if ($data[$r + $r1][$c + $c1] -eq "S" -and $data[$r + $r2][$c + $c2] -eq "M") {
-            $crossFound++
-        } elseif ($data[$r + $r1][$c + $c1] -eq "M" -and $data[$r + $r2][$c + $c2] -eq "S") {
-            $crossFound++
-        }
     }
 
-    if ($crossFound -eq 2) {
-        return 1
+    if(($DotPosX -ge $MaxX) -or ($DotPosX -lt 0)){
+        $OutOfBounds = $true
     }
 
-    return 0
-}
-#endregion
+    # Set new Guard Location
+    $PatrolMap[$DotPosY] = (Update-Line $GuardLocation.DirectionChar $PatrolMap[$DotPosY] $DotPosX)
 
-#region Main
-$data = Get-Content -Path ($(if ($TESTING) { "test.txt" } else { "input.txt" }))
+    # Place breadcrumb
+    $PatrolMap[$GuardLocation.Y] = (Update-Line $BreadCrumb $PatrolMap[$GuardLocation.Y] $GuardLocation.X)
 
-$columns = $data[0].Length
-$rows = $data.Length
+    $GuardLocation.X = $DotPosX
+    $GuardLocation.Y = $DotPosY
 
-for ($row = 0; $row -lt $rows; $row++) {
-    for ($col = 0; $col -lt $columns; $col++) {
-        $XMAS_occurence += Search-XMAS -r $row -c $col -data $data -rows $rows -columns $columns
-        $cross_MAS_occurence += Search-CrossMAS -r $row -c $col -data $data -rows $rows -columns $columns
-    }
-}
+    $host.UI.RawUI.CursorPosition = @{ x = 0; y = 0 }
+    $PatrolMap -Join "`n"
 
-Write-Host "Part One Answer: $XMAS_occurence"
-Write-Host "Part Two Answer: $cross_MAS_occurence"
-#endregion
+}While(!($OutOfBounds))
+
+$NumberOfBreadCrumbs = [Regex]::Matches($PatrolMap, "X")
+
+Write-Host "Part 1: $($NumberOfBreadCrumbs.Count)"
