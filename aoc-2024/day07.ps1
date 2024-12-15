@@ -1,7 +1,7 @@
 #region Parameters
 $day = "07"
 $title = "Day 7: Bridge Repair"
-$testing = $true
+$testing = $false
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 [long]$sumOfValidEquation = 0
 #endregion
@@ -15,9 +15,9 @@ Import-Module -Name "$scriptPath/modules/WriteOutcome.psm1" -Force
 
 #endregion 
 function Get-ValidEquation {
-    param($data)
-    [long]$equalTo = $equation.Split(':')[0].Trim() # use long instead since there's some value that are larger than int.
-    $statement = $equation.Split(':')[1].Trim().Split(' ')
+    param($eq)
+    [long]$result = $eq.Split(':')[0].Trim() # use long instead since there's some value that are larger than int.
+    $statement = $eq.Split(':')[1].Trim().Split(' ')
 
     [System.Collections.ArrayList]$qStatement = @(,@(0,[long]$statement[0]))
 
@@ -30,9 +30,11 @@ function Get-ValidEquation {
         [long]$multi = $currentNumber * $statement[$index]
 
         if($index -eq $statement.Count - 1) {
-            if($add -eq $equalTo) {
+            if($add -eq $result) {
+                Write-Host $qStatement -ForegroundColor Cyan
                 return $add
-            } elseif($multi -eq $equalTo) {
+            } elseif($multi -eq $result) {
+                Write-Host $qStatement -ForegroundColor Cyan
                 return $multi
             }
         } else {
@@ -46,5 +48,6 @@ $data = Open-DataFile -DayNumber $day -Testing $testing -ScriptPath $scriptPath
 foreach($equation in $data) {
     $sumOfValidEquation += Get-ValidEquation $equation
 }
-Write-Host $sumOfValidEquation
+Write-Answer -Title $title -Testing $testing -ExpectedAnswer 3749 -Answer $sumOfValidEquation -Part 1
+
 #endregion
