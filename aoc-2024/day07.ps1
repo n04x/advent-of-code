@@ -13,8 +13,6 @@ Import-Module -Name "$scriptPath/modules/WriteOutcome.psm1" -Force
 #endregion
 
 #region Functions
-
-#endregion 
 function Get-ValidEquation {
     param($eq, $useConcat)
     [long]$result = $eq.Split(':')[0].Trim() # use long instead since there's some value that are larger than int.
@@ -46,6 +44,7 @@ function Get-ValidEquation {
         }
     }
 }
+#endregion
 
 #region Main
 $data = Open-DataFile -DayNumber $day -Testing $testing -ScriptPath $scriptPath
