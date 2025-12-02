@@ -1,0 +1,7 @@
+/home/n04x/Repos/advent-of-code/aoc-2025/target/debug/deps/is_terminal_polyfill-2f98b869545b7874.d: /home/n04x/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/is_terminal_polyfill-1.70.2/src/lib.rs
+
+/home/n04x/Repos/advent-of-code/aoc-2025/target/debug/deps/libis_terminal_polyfill-2f98b869545b7874.rlib: /home/n04x/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/is_terminal_polyfill-1.70.2/src/lib.rs
+
+/home/n04x/Repos/advent-of-code/aoc-2025/target/debug/deps/libis_terminal_polyfill-2f98b869545b7874.rmeta: /home/n04x/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/is_terminal_polyfill-1.70.2/src/lib.rs
+
+/home/n04x/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/is_terminal_polyfill-1.70.2/src/lib.rs:

@@ -1,0 +1,1 @@
+/home/n04x/Repos/advent-of-code/aoc-2025/target/debug/aoc-2025: /home/n04x/Repos/advent-of-code/aoc-2025/src/cli.rs /home/n04x/Repos/advent-of-code/aoc-2025/src/day01.rs /home/n04x/Repos/advent-of-code/aoc-2025/src/dispatch.rs /home/n04x/Repos/advent-of-code/aoc-2025/src/main.rs
