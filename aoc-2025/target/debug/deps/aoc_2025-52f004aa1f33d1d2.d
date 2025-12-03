@@ -1,0 +1,9 @@
+/home/n04x/Repos/advent-of-code/aoc-2025/target/debug/deps/aoc_2025-52f004aa1f33d1d2.d: src/main.rs src/cli.rs src/dispatch.rs src/day01.rs src/day02.rs
+
+/home/n04x/Repos/advent-of-code/aoc-2025/target/debug/deps/libaoc_2025-52f004aa1f33d1d2.rmeta: src/main.rs src/cli.rs src/dispatch.rs src/day01.rs src/day02.rs
+
+src/main.rs:
+src/cli.rs:
+src/dispatch.rs:
+src/day01.rs:
+src/day02.rs:

@@ -2,6 +2,7 @@ mod cli;
 mod dispatch;
 
 mod day01;
+mod day02;
 
 use std::fs;
 
