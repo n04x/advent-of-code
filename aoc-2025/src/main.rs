@@ -3,11 +3,13 @@ mod dispatch;
 
 mod day01;
 mod day02;
+mod day03;
 
 use std::fs;
 
 fn main() {
     let args = cli::Cli::parse_args();
+    
     let input = if let Some(path) = args.file {
         fs::read_to_string(&path).unwrap_or_else(|e| panic!("Failed to read input file {}: {}", path.display(), e))
     } else {
