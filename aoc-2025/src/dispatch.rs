@@ -7,6 +7,7 @@ pub fn run_day(day: u8, part: Option<u8>, input: &str) {
                 1 => crate::day01::solve_part1(input),
                 2 => crate::day02::solve_part1(input),
                 3 => crate::day03::solve_part1(input),
+                4 => crate::day04::solve_part1(input),
                 _ => panic!("Unsupported day/part combination."),
             };
             println!(
@@ -20,7 +21,8 @@ pub fn run_day(day: u8, part: Option<u8>, input: &str) {
             let output = match day {
                 1 => crate::day01::solve_part2(input),
                 2 => crate::day02::solve_part2(input),
-                // 3 => crate::day03::solve_part2(input),
+                3 => crate::day03::solve_part2(input).try_into().unwrap(),
+                4 => crate::day04::solve_part2(input),
                 _ => panic!("Unsupported day/part combination."),
             };
             println!(
@@ -41,14 +43,16 @@ pub fn run_day(day: u8, part: Option<u8>, input: &str) {
             let p1 = match day {
                 1 => crate::day01::solve_part1(input),
                 2 => crate::day02::solve_part1(input),
-                3 => crate::day03::solve_part1(input),
+                3 => crate::day03::solve_part1(input).try_into().unwrap(),
+                4 => crate::day04::solve_part1(input),
                 _ => panic!("Unsupported day/part combination."),
             };
 
             let p2 = match day {
                 1 => crate::day01::solve_part2(input),
                 2 => crate::day02::solve_part2(input),
-                // 3 => crate::day03::solve_part2(input),
+                3 => crate::day03::solve_part2(input).try_into().unwrap(),
+                4 => crate::day04::solve_part2(input),
                 _ => panic!("Unsupported day/part combination."),
             };
 

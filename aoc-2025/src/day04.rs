@@ -16,11 +16,11 @@ mod tests {
 
     #[test]
     fn test_part1_example() {
-        assert_eq!(solve_part1(EXAMPLE), "expected");
+        assert_eq!(solve_part1(EXAMPLE), 0);
     }
 
     #[test]
     fn test_part2_example() {
-        assert_eq!(solve_part2(EXAMPLE), "expected");
+        assert_eq!(solve_part2(EXAMPLE), 0);
     }
 }
