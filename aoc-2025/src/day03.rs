@@ -77,7 +77,7 @@ mod tests {
             ";
         assert_eq!(super::solve_part1(input), 357);
     }
-
+    #[test]
     fn test_part2_example() {
         let input = "\
             987654321111111
