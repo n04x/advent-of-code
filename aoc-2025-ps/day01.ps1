@@ -43,35 +43,29 @@ function Solve-Part2 {
     $dialSize = 100
 
     foreach($line in $data) {
-        if ([string]::IsNullOrWhiteSpace($line)) { continue }
-        
+        if([string]::IsNullOrWhiteSpace($line)) { continue }
+
         $direction = $line.Substring(0,1)
         $distance = [int]$line.Substring(1)
 
-        if($direction -eq "L") { $delta = -$distance }
-        elseif ($direction -eq "R") { $delta = $distance }
-        else { throw "Invalid direction: $direction" }
-
-        $position_mod = [Math]::IEEERemainder($position, $deltasize)
-        if($position_mod -lt 0) { $position_mod += $dialSize }
-
-        if($delta -ge 0) {
-            $offset = ($dialSize - $position_mod) % $dialSize
-        } else {
-            $offset = -$position_mod % $dialSize
+        $delta = switch ($direction) {
+            "L" { -$distance }
+            "R" { $distance }
+            Default { throw "Invalid direction: $direction" }
         }
+        $position_modulo = (($position % $dialSize) + $dialSize) % $dialSize
+
+        if($delta -ge 0) { $offset = ($dialSize - $position_modulo) % $dialSize }
+        else { $offset = $position_modulo % $dialSize }
 
         $d = [Math]::Abs($delta)
-        if($d -le $offset) {
-            $crosses = 0
-        } else {
-            $crosses = 1 + [Math]::Floor(($d - $offset - 1) / $dialSize)
-        }
+
+        if($d -le $offset) { $crosses = 0 }
+        else { $crosses = [math]::Floor(($d - $offset - 1) / $dialSize) + 1 }
 
         $zeroHits += $crosses
         $position += $delta
     }
-
     return $zeroHits
 }
 
