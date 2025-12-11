@@ -1,64 +1,62 @@
 param(
     [int]$part = 0,
-    [string]$inputFile = "inputs/day04.txt",
+    [string]$inputFile = "inputs/day05.txt",
     [switch]$test
 )
 
 #region Helper Functions
-function Parse-Ranges {
-    param([string[]]$data)
+function Parse-Day05Sections {
+    param ([string]$data)
 
-    $ranges = @()
+    $lines = $data -split '\r?\n'
 
-    foreach($line in $data) {
-        if($line -match '^\s*(\d+)\s*-\s*(\d+)\s*$') {
-            $start = [int64]$Matches[1]
-            $end = [int64]$Matches[2]
-            if($end -lt $start) { throw "Invalid range: $line" }
-            $ranges += ,@($start, $end)
+    $rangeLines = @()
+    $idLines = @()
+    $inID = $false
+
+    foreach($line in $lines) {
+        if($line -eq '') {
+            $inID = $true
+            continue
+        }
+        if($inID) {
+            $idLines += $line
+        } else {
+            $rangeLines += $line
         }
     }
+    if($rangeLines.Count -lt 1 -or $idLines.Count -lt 1) { throw "Invalid input format" }
 
-    return $ranges
+    return @{
+        Ranges  = $rangeLines
+        IDs     = $idLines
+    }
 }
 
-function Merge-Ranges {
-    param([object[]]$ranges)
+function Parse-Ranges {
+    param ([string[]]$data)
 
-    if($ranges.Count -eq 0) { return @() }
-
-    $sorted = $ranges | Sort-Object { $_[0] }
-
-    $merged = @()
-    $current = @($sorted[0][0], $sorted[0][1])
-
-    foreach($r in $sorted[1..($sorted.Count - 1)]) {
-        $s = $r[0]
-        $e = $r[1]
-
-        if($s -le ($current[1] + 1)) {
-            # overlapping or contiguous
-            $current[1] = [Math]::Max($current[1], $e)
-        } else {
-            # no overlap
-            $merged += ,$current
-            $current = @($s, $e)
+    $out = @()
+    foreach($line in $data) {
+        if($line -match '^\s*(\d+)-(\d+)\s*$') {
+            $start = [int64]$matches[1]
+            $end = [int64]$matches[2]
+            $out += ,@($start, $end)
         }
     }
-    $merged += ,$current
-    return $merged
+    return $out    
 }
 
 function ID-IsFresh {
-    param([int64]$id, [object[]]$ranges)
+    param ([int64]$id, [Array]$ranges)
 
     foreach($r in $ranges) {
         if($id -ge $r[0] -and $id -le $r[1]) {
             return $true
         }
     }
-
     return $false
+    
 }
 #endregion
 
@@ -66,62 +64,62 @@ function ID-IsFresh {
 function Solve-Part1 {
     param([string]$data)
 
-    # If we are in Test mode.
-    if($data -is [System.Array]) {
-        # Remove comments + empty lines
-        $clean = $data | Where-Object { $_ -match '\S' -and $_ -notmatch '^\s*#' }
+    # Normalize if it comes from run-tests.ps1
+    # if($data -is [System.Array]) { $data = $data -join "`n" }
+    $parsed = Parse-Day05Sections -data $data
+    $rangeLines = $parsed.Ranges
+    $idLines = $parsed.IDs
 
-        # Identify first non-range line (first time parsing fails)
-        $ranges = @()
-        $ids = @()
-
-        $parsingRanges = $true
-
-        foreach ($line in $clean) {
-            if ($parsingRanges -and $line -match '^\s*(\d+)\s*-\s*(\d+)\s*$') {
-                $ranges += $line
-            }
-            else {
-                $parsingRanges = $false
-                if ($line -match '^\s*\d+\s*$') {
-                    $ids += $line
-                }
+    $ranges = Parse-Ranges -data $rangeLines
+    $freshCount = 0
+    foreach($line in $idLines) {
+        if($line -match '^\s*(\d+)\s*$') {
+            $id = [int64]$matches[1]
+            if(ID-IsFresh -id $id -ranges $ranges) {
+                $freshCount++
             }
         }
-
-        if ($ranges.Count -eq 0 -or $ids.Count -eq 0) {
-            throw "Invalid test input format: could not split ranges and IDs."
-        }
-
-        $rangesParsed = Parse-Ranges -data $ranges
-
-        $fresh = 0
-        foreach ($idStr in $ids) {
-            $id = [int64]$idStr
-            if (ID-IsFresh -id $id -ranges $rangesParsed) { $fresh++ }
-        }
-
-        return $fresh
     }
 
-    # If we are in actual run mode.
-    $sections = $data -split '\r?\n\r?\n'
-    if ($sections.Count -lt 2) { throw "Invalid input format." }
+    return $freshCount
+}
 
-    $rangeLines = $sections[0] -split '\r?\n'
-    $idLines    = $sections[1] -split '\r?\n'
+function Solve-Part2 {
+    param([string]$data)
+
+    $parsed = Parse-Day05Sections -data $data
+    $rangeLines = $parsed.Ranges
 
     $ranges = Parse-Ranges -data $rangeLines
 
-    $freshCount = 0
+    if($ranges.Count -eq 0) { return 0 }
 
-    foreach ($idStr in $idLines) {
-        if ($idStr -match '^\s*(\d+)\s*$') {
-            $id = [int64]$Matches[1]
+    # Step 1, Sort and merge ranges
+    $sorted = $ranges | Sort-Object { $_[0] }
 
-            if (ID-IsFresh -id $id -ranges $ranges) { $freshCount++ }
+    $merged = New-Object System.Collections.Generic.List[object]
+
+    $currentStart   = $sorted[0][0]
+    $currentEnd     = $sorted[0][1]
+
+    for($i = 1; $i -lt $sorted.Count; $i++) {
+        $s = $sorted[$i][0]
+        $e = $sorted[$i][1]
+
+        if($s -le ($currentEnd + 1)) { if ($e -gt $currentEnd) { $currentEnd = $e } }
+        else {
+            $merged.Add(@($currentStart, $currentEnd))
+            $currentStart = $s
+            $currentEnd = $e
         }
     }
+
+    # push final range
+    $merged.Add(@($currentStart, $currentEnd))
+
+    # Step 2, Count unblocked IDs
+    $freshCount = 0
+    foreach($r in $merged) { $freshCount += ($r[1] - $r[0] + 1) }
 
     return $freshCount
 }
@@ -137,11 +135,12 @@ function Run-Day05 {
 
     switch ($part) {
         1 { Write-Output (Solve-Part1 $data) }
+        2 { Write-Output (Solve-Part2 $data) }
         Default { 
             $p1 = Solve-Part1 $data
-            # $p2 = Solve-Part2 $data
+            $p2 = Solve-Part2 $data
             Write-Output "Day 04 - Part 1: $p1"
-            # Write-Output "Day 04 - Part 2: $p2"
+            Write-Output "Day 04 - Part 2: $p2"
          }
     }
 }
@@ -150,7 +149,7 @@ function Run-Day05 {
 #region Test
 if ($Test) {
     $raw = Get-Content $InputFile -Raw
-    $data = (Get-Content $InputFile -Raw) -replace '(?m)^#.*(?:\r?\n)?', ''
+    $data = ($raw -split "`n") | Where-Object { $_ -notmatch "^#" } | Out-String
 
     if ($Part -eq 1) { Write-Output (Solve-Part1 $data) }
     elseif ($Part -eq 2) { Write-Output (Solve-Part2 $data) }
@@ -159,4 +158,4 @@ if ($Test) {
 else {
     Run-Day05 -Part $Part -InputFile $InputFile
 }
-#end
+#endregion
