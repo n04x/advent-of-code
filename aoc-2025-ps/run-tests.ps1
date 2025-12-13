@@ -60,7 +60,7 @@ foreach ($file in $testFiles) {
         if($res.Success) {
             $p1Actual = $res.Output
             if($p1Actual -eq $p1Expected) {
-                Write-Host " [+] Part 1 passed ($p1Actual)" -ForegroundColor Green
+                Write-Host " [+] Part 1 passed ($p1Actual)" -ForegroundColor DarkGreen
                 $passed++
             } else {
                 Write-Host " [-] Part 1 failed. Expected: $p1Expected, Got: $p1Actual" -ForegroundColor Red
@@ -80,7 +80,7 @@ foreach ($file in $testFiles) {
         if($res.Success) {
             $p2Actual = $res.Output
             if($p2Actual -eq $p2Expected) {
-                Write-Host " [+] Part 2 passed ($p2Actual)" -ForegroundColor Green
+                Write-Host " [+] Part 2 passed ($p2Actual)" -ForegroundColor DarkGreen
                 $passed++
             } else {
                 Write-Host " [-] Part 2 failed. Expected: $p2Expected, Got: $p2Actual" -ForegroundColor Red
@@ -96,6 +96,6 @@ foreach ($file in $testFiles) {
 }
 
 Write-Host "`n========================="
-Write-Host "[+] Tests Passed: $passed" -ForegroundColor Green
+Write-Host "[+] Tests Passed: $passed" -ForegroundColor DarkGreen
 Write-Host "[-] Tests Failed: $failed" -ForegroundColor Red
 Write-Host "=========================`n"
