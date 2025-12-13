@@ -65,7 +65,6 @@ function Solve-Part1 {
     param([string]$data)
 
     # Normalize if it comes from run-tests.ps1
-    # if($data -is [System.Array]) { $data = $data -join "`n" }
     $parsed = Parse-Day05Sections -data $data
     $rangeLines = $parsed.Ranges
     $idLines = $parsed.IDs

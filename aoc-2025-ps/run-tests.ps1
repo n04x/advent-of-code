@@ -27,7 +27,6 @@ foreach ($file in $testFiles) {
     if($p1Header) { $p1Expected = ($p1Header -replace '.*=').Trim() }
     if($p2Header) { $p2Expected = ($p2Header -replace '.*=').Trim() }
 
-    # $inputLines = $raw | Where-Object { ($_ -notmatch '^\s*#') -and ($_ -match '\S') }
     $inputLines = $raw | Where-Object { $_ -notmatch '^\s*#' }
 
     $day = [regex]::Match($file.Name, 'day(\d+)').Groups[1].Value
